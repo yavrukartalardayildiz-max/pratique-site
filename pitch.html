@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pratique — Satış Sunumu</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy-950:#060d1a;--navy-900:#08111f;--line:rgba(140,170,210,.14);--glass:rgba(255,255,255,.04);
+  --gold:#f2c14e;--gold-soft:#f8d780;--gold-deep:#c9912f;--cyan:#59c7f2;--green:#4ade80;--red:#ff6b6b;--amber:#ffb454;--ink:#1a1205;--text:#eaf1fb;--muted:#93a6c2;--muted2:#66789a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--navy-950);color:var(--text);overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1050px 700px at 90% -6%,rgba(242,193,78,.14),transparent 55%),
+  radial-gradient(950px 620px at 8% 8%,rgba(89,199,242,.12),transparent 60%),
+  radial-gradient(1200px 900px at 60% 122%,rgba(45,212,191,.08),transparent 60%),
+  linear-gradient(165deg,var(--navy-900),var(--navy-950))}
+.bg::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.5) .5px,transparent .5px);background-size:48px 48px;opacity:.02}
+h1,h2{font-family:'Sora';letter-spacing:-.025em;line-height:1.1}
+.g{background:linear-gradient(110deg,var(--gold),var(--gold-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
+.deck{height:100vh;width:100vw;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:8vh 11vw;animation:fade .45s ease}
+.slide.on{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.kick{color:var(--cyan);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:13.5px;margin-bottom:20px}
+.slide h1{font-size:60px;font-weight:800;max-width:19ch}
+.slide h2{font-size:42px;font-weight:700;max-width:21ch}
+.lead{font-size:21px;color:var(--muted);max-width:56ch;margin-top:22px;line-height:1.55}
+.brandmark{display:flex;align-items:center;gap:14px;font-family:'Sora';font-weight:800;font-size:30px}
+.brandmark .m{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:var(--ink);font-size:28px;box-shadow:0 12px 30px -10px rgba(242,193,78,.6)}
+ul.big{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:14px;max-width:60ch}
+ul.big li{font-size:19px;display:flex;gap:13px;align-items:flex-start;color:var(--text)}
+ul.big li .b{color:var(--gold);font-size:20px;flex:none}
+ul.big li.x .b{color:var(--red)} ul.big li.ck .b{color:var(--green)}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+.box{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:22px}
+.box .ic{font-size:24px;margin-bottom:9px}.box h3{font-size:18px;margin-bottom:6px}.box p{color:var(--muted);font-size:14px;line-height:1.5}
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:36px}
+.stat .n{font-family:'Sora';font-size:46px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}.stat .l{color:var(--muted);font-size:14px;margin-top:7px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+.ba .c{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:24px}
+.ba .c.before{border-color:rgba(255,107,107,.3)}.ba .c.after{border-color:rgba(242,193,78,.45);background:linear-gradient(180deg,rgba(242,193,78,.07),transparent)}
+.ba h4{font-family:'Sora';font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:12px}
+.ba p{font-size:15px;color:var(--muted);line-height:1.5}.ba .t{font-family:'Sora';font-size:30px;font-weight:800;margin-top:10px}
+.tier{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:24px}
+.tier.feat{border-color:rgba(242,193,78,.5);background:linear-gradient(180deg,rgba(242,193,78,.08),transparent)}
+.tier .amt{font-family:'Sora';font-size:32px;font-weight:800;margin:8px 0}.tier ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:7px}.tier li{font-size:13.5px;color:var(--muted)}.tier li::before{content:'✓ ';color:var(--gold)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+.tag.have{background:rgba(74,222,128,.16);color:var(--green)}.tag.next{background:rgba(89,199,242,.14);color:var(--cyan)}.tag.later{background:rgba(140,170,210,.13);color:var(--muted)}
+.controls{position:fixed;bottom:26px;right:34px;display:flex;align-items:center;gap:14px;color:var(--muted2);font-size:14px;z-index:30}
+.dots{position:fixed;bottom:30px;left:34px;display:flex;gap:7px;z-index:30}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:.2s}.dots i.on{background:var(--gold);width:22px;border-radius:6px}
+.nbtn{background:var(--glass);border:1px solid var(--line);color:var(--text);width:40px;height:40px;border-radius:11px;cursor:pointer;font-size:18px}.nbtn:hover{background:rgba(255,255,255,.1)}
+.footnote{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);color:var(--muted2);font-size:12.5px;z-index:30}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="deck" id="deck">
+
+  <section class="slide on">
+    <div class="kick">Gemi acenteleri için operasyon OS</div>
+    <h1>Gece 02:14. WhatsApp'tan 3 pasaport düştü. <span class="g">Sabaha</span> OK-TO-BOARD yetişecek.</h1>
+    <ul class="big">
+      <li class="x"><span class="b">●</span> Pasaport, denizci cüzdanı, uçuş PDF'i — hepsi farklı sohbetten, farklı formatta.</li>
+      <li class="x"><span class="b">●</span> Siz veya operatörünüz aynı isimleri/numaraları tek tek antetli mektuba yazıyorsunuz.</li>
+      <li class="x"><span class="b">●</span> Tek hane yanlış cüzdan no = denizci uçamaz, gemi bekler, principal arar.</li>
+    </ul>
+    <p class="lead">Bu bir “yazılım” problemi değil; bu sizin geceniz ve itibarınız.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Maliyet</div>
+    <h2>Aynı veriyi 5 yere giriyorsunuz. Bir tarih kaçarsa fatura <span class="g">$2.000-4.000</span>.</h2>
+    <ul class="big">
+      <li class="x"><span class="b">✕</span> Aynı isim/numara: WhatsApp → Excel → antetli mektup → devlet portalı → muhasebe (5 kez elle).</li>
+      <li class="x"><span class="b">✕</span> Kaçan süreler (pasaport/cüzdan/vize) — fark edilmediğinde uçuş iptal, gemi gecikir.</li>
+      <li class="x"><span class="b">✕</span> Crew change = en yüksek yük: denizci başına ~$2-4k, 10-14 gün, çok taraflı maraton.</li>
+      <li class="x"><span class="b">✕</span> PDA/FDA'da ±%2-3 tutturmak zorundasınız; tek satır hata principal güvenini yer.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Kama — satışın kalbi</div>
+    <h2>Bir saat tekrar yazma → <span class="g">60 saniye</span>. Aynı işin önce/sonrası.</h2>
+    <div class="ba">
+      <div class="c before"><h4>Önce — elle</h4><p>3 PDF'i aç, oku, isim/numara/tarihleri tek tek mektuba ve EK-1'lere yaz.</p><div class="t" style="color:var(--red)">~1 saat</div></div>
+      <div class="c after"><h4>Sonra — Pratique</h4><p>3 PDF'i sürükle-bırak → OKTB + her denizci için EK-1, sizin antetinizle hazır.</p><div class="t g">60 saniye</div></div>
+    </div>
+    <p class="lead">Demo = ücretsiz deneme: bir sonraki geminizin PDF'lerini gönderin, mektup 60 sn'de önünüzde.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Basitlik = benimseme</div>
+    <h2>Üç adım. Operatör eğitimi yok, kurulum yok.</h2>
+    <div class="cols3">
+      <div class="box"><div class="ic">📲</div><h3>1) Bırak</h3><p>WhatsApp/e-postadan gelen PDF'leri tek alana sürükle.</p></div>
+      <div class="box"><div class="ic">🧠</div><h3>2) Doğrula</h3><p>Sistem alanları çıkarır, şüpheliyi kırmızı gösterir, tek tıkla onaylarsın.</p></div>
+      <div class="box"><div class="ic">📄</div><h3>3) Üret</h3><p>OKTB + EK-1'ler senin antetinle iner; gönderim sende.</p></div>
+    </div>
+    <p class="lead">Bugün çalışan: OKTB/EK-1, Mürettebat DB, Süre Takvimi (90/60/30/7), Yedek Parça (Excel in/out).</p>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Güven = satışın yarısı</div>
+    <h2>Sizin antetiniz. Sizin kaşeniz. Pasaportlar <span class="g">makinenizde</span> kalır.</h2>
+    <ul class="big">
+      <li class="ck"><span class="b">●</span> Çıktı sizin gerçek antetinizle — logo, kaşe, sütun düzeni birebir korunur.</li>
+      <li class="ck"><span class="b">●</span> Pasaport/cüzdan verisi makineden çıkmaz; sadece okuma için seçtiğiniz servise gider.</li>
+      <li class="ck"><span class="b">●</span> MRZ çek-digit doğrulaması: makine-okur satır matematiksel doğrulanır (%90 alan doğruluğu).</li>
+      <li class="ck"><span class="b">●</span> Zaten kullandığınız Excel'inizle çalışır — yeni format öğrenmek yok.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="kick">En büyük korkuyu öldür</div>
+    <h2>Sistem “düzeltmez” — size gösterir. Onay sizde, <span class="g">risk sıfır</span>.</h2>
+    <ul class="big">
+      <li class="ck"><span class="b">●</span> Gerçek örnek: cüzdan no mektupta S00044582, taramada S00048582 — tek hane fark.</li>
+      <li class="ck"><span class="b">●</span> Sistem sessizce düzeltmez; KIRMIZI işaretle gösterir, düzenlenebilir tabloda onaylarsın.</li>
+      <li class="ck"><span class="b">●</span> Hiçbir belge otomatik gönderilmez — son söz, son kaşe her zaman sizde.</li>
+    </ul>
+    <p class="lead"><span class="g">Hızı makineden, kararı sizden</span> — yanlış belge gönderme riskiniz bugünkünden düşük.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Vizyon</div>
+    <h2>Bir kez gir, her yere doldur. Bugünkü mektup, <span class="g">yarının operasyon OS'i</span>.</h2>
+    <ul class="big">
+      <li><span class="b">●</span> Tek Port-Call kaydı: pasaport/cüzdan/uçuş bir kez okunur → tüm belgelere akar.</li>
+      <li><span class="b">●</span> Yasal rüzgâr: Maritime Single Window 2024'ten beri zorunlu — “bir kez gir, her yere doldur”.</li>
+      <li><span class="b">●</span> Yol haritası: WhatsApp intake → principal canlı link → PDA/FDA → MSW/FAL → SOF → AIS ETA.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Konumlama</div>
+    <h2>DA-Desk değiliz. Sizi fiyatla dışlamayan, <span class="g">Türkçe konuşan</span> taraf biziz.</h2>
+    <ul class="big">
+      <li><span class="b">●</span> DA-Desk/GAT-Ship/Base/MagicPort büyük acente için — küçüğü fiyat+karmaşıklıkla dışlıyor.</li>
+      <li><span class="b">●</span> Çoğu KOBİ acente hâlâ Excel + e-posta + WhatsApp ile dönüyor (düşük penetrasyon = fırsat).</li>
+      <li><span class="b">●</span> Pratique Türkçe-öncelikli: EK-1, GABS, MSW-TR yerli iş akışınız için kuruldu, çeviri değil.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Fiyat</div>
+    <h2>Sabit aylık. Port-call sayacı yok. <span class="g">Sürpriz fatura yok.</span></h2>
+    <div class="cols3" style="margin-top:30px">
+      <div class="tier"><h3>Starter</h3><div class="amt">$149<span style="font-size:15px;color:var(--muted)">/ay</span></div>
+        <ul><li>OKTB + EK-1</li><li>Vision + MRZ</li><li>Mürettebat DB</li><li>Süre uyarıları</li></ul></div>
+      <div class="tier feat"><h3>Pro ⭐</h3><div class="amt">$390<span style="font-size:15px;color:var(--muted)">/ay</span></div>
+        <ul><li>Çoklu gemi</li><li>Yedek Parça + DA</li><li>Excel in/out</li><li>WhatsApp intake</li></ul></div>
+      <div class="tier"><h3>Filo</h3><div class="amt">Özel</div>
+        <ul><li>Principal portalı</li><li>MSW / FAL</li><li>PDA/FDA motoru</li><li>SLA</li></ul></div>
+    </div>
+    <p class="lead">Geri ödeme: ayda 1 crew change. Yoğun ay sizi cezalandırmaz.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Sosyal kanıt + pazar</div>
+    <h2>MSA Horizon zaten kullanıyor. Ardından <span class="g">150+ acente</span>, $7.2 milyarlık pazar.</h2>
+    <div class="stat">
+      <div><div class="n">MSA</div><div class="l">Horizon — canlı pilot (Tuzla)</div></div>
+      <div><div class="n">150+</div><div class="l">VDA üyesi acente (TR)</div></div>
+      <div><div class="n">~63k</div><div class="l">yıllık port call (TR)</div></div>
+      <div><div class="n">$7.2B</div><div class="l">küresel port-agency pazarı</div></div>
+    </div>
+    <p class="lead">Büyüme: Tuzla/VDA ağzı-kulağa → IMEAK oda kanalı → “ücretsiz ilk mektup” funnel.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kick">Risksiz tek aksiyon</div>
+    <h2>Bir sonraki geminizin crew PDF'lerini gönderin. <span class="g">İlk mektup bizden.</span></h2>
+    <ul class="big">
+      <li class="ck"><span class="b">●</span> Risk yok: PDF'leri gönder, OKTB + EK-1'i antetinizle 60 sn'de üretelim.</li>
+      <li class="ck"><span class="b">●</span> Beğenirsen Starter'la başla; beğenmezsen elinde çalışan bir mektup kalır — kaybın yok.</li>
+      <li class="ck"><span class="b">●</span> Kurulum yok, kart yok, taahhüt yok — sadece bir sonraki işiniz.</li>
+      <li class="ck"><span class="b">●</span> İlk 10 acenteye MSA Horizon fiyatı + öncelikli destek.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="brandmark"><span class="m">⚓</span> Pratique</div>
+    <h1 style="margin-top:40px">Gemi acenteleri için <span class="g">operasyon OS</span>.</h1>
+    <p class="lead">WhatsApp'tan PDF girer, antetli mektup çıkar. 60 saniyede. Bir kez gir, her belgeye doldur.<br>
+      Tamamen yerel, tamamen Türkçe. Pilot: MSA Horizon (Tuzla/İstanbul).<br><br>
+      <b>agency@msahorizon.com</b> · canlı demo: agency@msahorizon.com</p>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="controls"><button class="nbtn" id="prev">‹</button><span id="counter">1 / 12</span><button class="nbtn" id="next">›</button></div>
+<div class="footnote">← → ok tuşları ile gezin · Pratique satış sunumu</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+const dots=document.getElementById('dots');slides.forEach((_,k)=>{const d=document.createElement('i');if(!k)d.className='on';dots.appendChild(d)});
+function go(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+  [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));document.getElementById('counter').textContent=(i+1)+' / '+slides.length;}
+document.getElementById('next').onclick=()=>go(i+1);document.getElementById('prev').onclick=()=>go(i-1);
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+</script>
+</body>
+</html>
